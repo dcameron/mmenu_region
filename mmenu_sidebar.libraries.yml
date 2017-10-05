@@ -1,0 +1,21 @@
+mmenu.cdn:
+  remote: https://cdnjs.com/libraries/jQuery.mmenu
+  version: 6.1.8
+  license:
+    name: Creative Commons Attribution-NonCommercial 4.0 International
+    url: https://creativecommons.org/licenses/by-nc/4.0/
+    gpl-compatible: false
+  css:
+    component:
+      https://cdnjs.cloudflare.com/ajax/libs/jQuery.mmenu/6.1.8/core/offcanvas/jquery.mmenu.offcanvas.css: { type: external }
+  js:
+    https://cdnjs.cloudflare.com/ajax/libs/jQuery.mmenu/6.1.8/core/offcanvas/jquery.mmenu.offcanvas.js: { type: external }
+  dependencies:
+    - core/jquery
+
+mmenu_sidebar:
+  version: 1.x
+  js:
+    js/mmenu_sidebar.js: {  }
+  dependencies:
+    - core/jquery
