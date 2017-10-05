@@ -1,0 +1,14 @@
+<?php
+
+/**
+ * @file
+ * Contains functions for the Mmenu Sidebar module.
+ */
+
+/**
+ * Implements hook_page_attachments_alter().
+ */
+function mmenu_sidebar_page_attachments_alter(array &$attachments) {
+  $attachments['#attached']['library'][] = 'mmenu_sidebar/mmenu.cdn';
+  $attachments['#attached']['library'][] = 'mmenu_sidebar/mmenu_sidebar';
+}
