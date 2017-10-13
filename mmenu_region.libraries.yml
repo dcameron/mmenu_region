@@ -7,15 +7,15 @@ mmenu.cdn:
     gpl-compatible: false
   css:
     component:
-      https://cdnjs.cloudflare.com/ajax/libs/jQuery.mmenu/6.1.8/core/offcanvas/jquery.mmenu.offcanvas.css: { type: external }
+      https://cdnjs.cloudflare.com/ajax/libs/jQuery.mmenu/6.1.8/jquery.mmenu.all.css: { type: external }
   js:
-    https://cdnjs.cloudflare.com/ajax/libs/jQuery.mmenu/6.1.8/core/offcanvas/jquery.mmenu.offcanvas.js: { type: external }
+    https://cdnjs.cloudflare.com/ajax/libs/jQuery.mmenu/6.1.8/jquery.mmenu.all.js: { type: external }
   dependencies:
     - core/jquery
 
-mmenu_sidebar:
+mmenu_region:
   version: 1.x
   js:
-    js/mmenu_sidebar.js: {  }
+    js/mmenu_region.js: {  }
   dependencies:
     - core/jquery

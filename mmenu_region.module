@@ -1,0 +1,77 @@
+<?php
+
+/**
+ * @file
+ * Contains functions for the Mmenu Region module.
+ */
+
+/**
+ * Implements hook_page_bottom().
+ */
+function mmenu_region_page_bottom(array &$page_bottom) {
+  $blocks = \Drupal::entityTypeManager()
+    ->getStorage('block')
+    ->loadByProperties(['region' => 'mmenu']);
+  uasort($blocks, 'Drupal\block\Entity\Block::sort');
+
+  $mmenu_blocks = [];
+  $view_builder = \Drupal::entityTypeManager()
+    ->getViewBuilder('block');
+  /** @var \Drupal\block\BlockInterface $block */
+  foreach ($blocks as $key => $block) {
+    if ($block->access('view')) {
+      $mmenu_blocks[$key]['title'] = $block->label();
+      $mmenu_blocks[$key]['content'] = $view_builder->view($block);
+      // Collapse blocks provided by the Facets module.
+      $provider = $block->get('settings')['provider'];
+      $mmenu_blocks[$key]['collapsed'] = $provider == 'facets' ? TRUE : FALSE;
+    }
+  }
+
+  $page_bottom['mmenu'] = [
+    '#theme' => 'mmenu_region',
+    '#blocks' => $mmenu_blocks,
+    '#attached' => [
+      'library' => [
+        'mmenu_region/mmenu.cdn',
+        'mmenu_region/mmenu_region',
+      ],
+    ],
+  ];
+}
+
+/**
+ * Implements hook_system_info_alter().
+ */
+function mmenu_region_system_info_alter(array &$info, \Drupal\Core\Extension\Extension $file, $type) {
+  if ($type == 'theme') {
+    $info['regions']['mmenu'] = 'Mmenu';
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function mmenu_region_theme($existing, $type, $theme, $path) {
+  return [
+    'mmenu_region' => [
+      'variables' => [
+        'blocks' => [],
+      ],
+    ],
+  ];
+}
+
+/**
+ * Preprocesses variables for the mmenu_region twig template.
+ *
+ * @param array $variables
+ *   An array of variables to pass to the template.
+ */
+function mmenu_region_preprocess_mmenu_region(&$variables) {
+  foreach ($variables['blocks'] as $key => $block) {
+    if (isset($block['collapsed'])) {
+      $variables['blocks'][$key]['block_wrapper'] = $block['collapsed'] ? 'div' : 'section';
+    }
+  }
+}

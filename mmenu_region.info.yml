@@ -1,0 +1,6 @@
+name: Mmenu Region
+type: module
+description: 'Creates a block region which will be inserted into an mmenu.'
+package: Other
+core: 8.x
+dependencies: {  }

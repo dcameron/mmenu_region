@@ -1,6 +1,0 @@
-name: Mmenu Sidebar
-type: module
-description: 'Places blocks from the left sidebar into an mmenu sliding menu.'
-package: Other
-core: 8.x
-dependencies: {  }
