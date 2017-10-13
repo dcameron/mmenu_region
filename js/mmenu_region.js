@@ -9,6 +9,4 @@
     navbars:[{position:'top'}],
     offCanvas:{zposition:"front"}
   });
-
-  $('main').before('<a href="#mmenu">Search >></a>');
 })(jQuery);
