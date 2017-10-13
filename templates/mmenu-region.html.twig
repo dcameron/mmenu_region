@@ -15,10 +15,10 @@
 #}
 <nav id="mmenu">
     <div>
-        {% for key, block in blocks %}
+        {% for block in blocks %}
             {% if block.collapsed %}
-                <a href="#mmenu-block-{{ key }}">{{ block.title }}</a>
-                <div id="mmenu-block-{{ key }}" class="Panel">
+                <a href="{{ block.title_href }}">{{ block.title }}</a>
+                <div{{ block.attributes }}>
                 <span class="Title">{{ block.title }}</span>
             {% else %}
                 <div>

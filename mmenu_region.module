@@ -89,8 +89,14 @@ function mmenu_region_theme($existing, $type, $theme, $path) {
  */
 function mmenu_region_preprocess_mmenu_region(&$variables) {
   foreach ($variables['blocks'] as $key => $block) {
-    if (isset($block['collapsed'])) {
-      
+    $id = 'mmenu-block-' . $key;
+    $attributes = [
+      'id' => $id,
+    ];
+    if (isset($block['collapsed']) && $block['collapsed']) {
+      $variables['blocks'][$key]['title_href'] = '#' . $id;
+      $attributes['class'] = 'Panel';
     }
+    $variables['blocks'][$key]['attributes'] = new \Drupal\Core\Template\Attribute($attributes);
   }
 }
