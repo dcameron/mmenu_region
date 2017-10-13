@@ -1,0 +1,7 @@
+block.block.*.third_party.mmenu_region:
+  type: mapping
+  label: Mmenu Region third party settings
+  mapping:
+    collapse:
+      type: boolean
+      label: Indicates that this block should be collapsed onto a new mmenu panel.

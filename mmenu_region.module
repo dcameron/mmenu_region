@@ -6,6 +6,27 @@
  */
 
 /**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function mmenu_region_form_block_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  /** @var \Drupal\block\BlockInterface $block */
+  $block = $form_state->getFormObject()->getEntity();
+
+  // Only show this for blocks in the mmenu region.
+  if ($block->getRegion() != 'mmenu') {
+    return;
+  }
+
+  // This will automatically be saved in the third party settings.
+  $form['third_party_settings']['#tree'] = TRUE;
+  $form['third_party_settings']['mmenu_region']['collapse'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Collapse this block onto a new mmenu panel.'),
+    '#default_value' => $block->getThirdPartySetting('mmenu_region', 'collapse'),
+  );
+}
+
+/**
  * Implements hook_page_bottom().
  */
 function mmenu_region_page_bottom(array &$page_bottom) {
@@ -22,9 +43,7 @@ function mmenu_region_page_bottom(array &$page_bottom) {
     if ($block->access('view')) {
       $mmenu_blocks[$key]['title'] = $block->label();
       $mmenu_blocks[$key]['content'] = $view_builder->view($block);
-      // Collapse blocks provided by the Facets module.
-      $provider = $block->get('settings')['provider'];
-      $mmenu_blocks[$key]['collapsed'] = $provider == 'facets' ? TRUE : FALSE;
+      $mmenu_blocks[$key]['collapsed'] = $block->getThirdPartySetting('mmenu_region', 'collapse');
     }
   }
 
@@ -71,7 +90,7 @@ function mmenu_region_theme($existing, $type, $theme, $path) {
 function mmenu_region_preprocess_mmenu_region(&$variables) {
   foreach ($variables['blocks'] as $key => $block) {
     if (isset($block['collapsed'])) {
-      $variables['blocks'][$key]['block_wrapper'] = $block['collapsed'] ? 'div' : 'section';
+      
     }
   }
 }
