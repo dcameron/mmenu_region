@@ -13,18 +13,17 @@
  * @ingroup themeable
  */
 #}
+{% if blocks %}
 <nav id="mmenu">
     <div>
         {% for block in blocks %}
             {% if block.collapsed %}
                 <a href="{{ block.title_href }}">{{ block.title }}</a>
-                <div{{ block.attributes }}>
-                <span class="Title">{{ block.title }}</span>
-            {% else %}
-                <div>
             {% endif %}
+            <div{{ block.attributes }}>
                 {{ block.content }}
             </div>
         {% endfor %}
     </div>
 </nav>
+{% endif %}
