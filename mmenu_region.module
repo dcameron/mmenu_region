@@ -124,6 +124,18 @@ function template_preprocess_block__mmenu_region__panel(&$variables) {
   ];
   // Turn the block wrapper into an Mmenu panel.
   $variables['attributes']['class'][] = 'Panel';
+  // Add a back link.
+  $back_text = t('<span class="mm-sronly">Close submenu (:label)</span>', [
+    ':label' => $variables['label']
+  ]);
+  $back_url = \Drupal\Core\Url::fromUserInput('#mm-1', [
+    'attributes' => [
+      'class' => [
+        'Prev',
+      ],
+    ],
+  ]);
+  $variables['back_link'] = \Drupal\Core\Link::fromTextAndUrl($back_text, $back_url);
   // Set the mmenu panel title to the block title.
   $variables['title_attributes']['class'][] = 'Title';
 }

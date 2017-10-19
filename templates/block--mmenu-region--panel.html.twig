@@ -24,14 +24,17 @@
  * - link: An array of values for creating the panel link.
  *   - attributes: The link's attributes, including the href.
  *   - text: The text to be displayed in the link.
+ * - back_link: A renderable Link object that takes the user back to the main
+ *   panel.
  *
  * @see template_preprocess_block()
  *
  * @ingroup themeable
  */
 #}
-<a{{ link.attributes }}">{{ link.text }}</a>
+<a{{ link.attributes }}>{{ link.text }}</a>
 <div{{ attributes }}>
+    {{ back_link }}
     {{ title_prefix }}
     {% if label %}
         <h2{{ title_attributes }}>{{ label }}</h2>
