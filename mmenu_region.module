@@ -30,22 +30,18 @@ function mmenu_region_form_block_form_alter(&$form, \Drupal\Core\Form\FormStateI
  * Implements hook_page_bottom().
  */
 function mmenu_region_page_bottom(array &$page_bottom) {
-  $blocks = \Drupal::entityTypeManager()
-    ->getStorage('block')
-    ->loadByProperties(['region' => 'mmenu']);
-  uasort($blocks, 'Drupal\block\Entity\Block::sort');
-
-  $mmenu_blocks = [];
   $view_builder = \Drupal::entityTypeManager()
     ->getViewBuilder('block');
-  /** @var \Drupal\block\BlockInterface $block */
-  foreach ($blocks as $key => $block) {
+
+  $mmenu_blocks = [];
+  foreach (_mmenu_region_get_blocks() as $key => $block) {
     if ($block->access('view')) {
       $mmenu_blocks[$key]['title'] = $block->label();
       $mmenu_blocks[$key]['content'] = $view_builder->view($block);
       $mmenu_blocks[$key]['collapsed'] = $block->getThirdPartySetting('mmenu_region', 'collapse');
     }
   }
+
   if (!empty($mmenu_blocks)) {
     $page_bottom['mmenu'] = [
       '#theme' => 'mmenu_region',
@@ -100,4 +96,22 @@ function template_preprocess_mmenu_region(&$variables) {
     }
     $variables['blocks'][$key]['attributes'] = new \Drupal\Core\Template\Attribute($attributes);
   }
+}
+
+/**
+ * Loads Mmenu region blocks from storage.
+ *
+ * @return \Drupal\block\BlockInterface[]
+ *   The blocks assigned to the Mmenu region.
+ */
+function _mmenu_region_get_blocks() {
+  static $blocks = NULL;
+  if ($blocks === NULL) {
+    /** @var \Drupal\block\BlockInterface[] $blocks */
+    $blocks = \Drupal::entityTypeManager()
+      ->getStorage('block')
+      ->loadByProperties(['region' => 'mmenu']);
+    uasort($blocks, 'Drupal\block\Entity\Block::sort');
+  }
+  return $blocks;
 }
