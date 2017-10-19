@@ -4,7 +4,7 @@
  * Default theme implementation to display an mmenu region.
  *
  * Available variables:
- * - $blocks: an array of blocks, each containing a content key.
+ * - content: The content for this Mmenu, typically blocks.
  *
  * @see template_preprocess()
  * @see template_preprocess_mmenu_block()
@@ -13,17 +13,10 @@
  * @ingroup themeable
  */
 #}
-{% if blocks %}
+{% if content %}
 <nav id="mmenu">
     <div>
-        {% for block in blocks %}
-            {% if block.collapsed %}
-                <a href="{{ block.title_href }}">{{ block.title }}</a>
-            {% endif %}
-            <div{{ block.attributes }}>
-                {{ block.content }}
-            </div>
-        {% endfor %}
+        {{ content }}
     </div>
 </nav>
 {% endif %}
