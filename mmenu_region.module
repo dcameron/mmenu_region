@@ -43,7 +43,8 @@ function mmenu_region_page_bottom(array &$page_bottom) {
   if (!empty($mmenu_blocks)) {
     $page_bottom['mmenu'] = [
       '#theme' => 'mmenu_region',
-      '#blocks' => $mmenu_blocks,
+      '#id' => 'mmenu',
+      '#content' => $mmenu_blocks,
       '#attached' => [
         'library' => [
           'mmenu_region/mmenu.cdn',
@@ -70,7 +71,8 @@ function mmenu_region_theme($existing, $type, $theme, $path) {
   return [
     'mmenu_region' => [
       'variables' => [
-        'blocks' => [],
+        'id' => '',
+        'content' => [],
       ],
     ],
     'block__mmenu_region__panel' => [
@@ -103,7 +105,9 @@ function mmenu_region_theme_suggestions_block_alter(array &$suggestions, array $
  *   An array of variables to pass to the template.
  */
 function template_preprocess_mmenu_region(&$variables) {
-  $variables['content'] = $variables['blocks'];
+  $variables['attributes'] = new \Drupal\Core\Template\Attribute([
+    'id' => $variables['id'],
+  ]);
 }
 
 /**
